@@ -50,6 +50,7 @@ dev_dependencies:
 
 
 flutter_icons:
+  android: true
   ios: false
   image_path: "assets/stopwatch.png"
 
@@ -58,6 +59,9 @@ flutter_icons:
 
 # The following section is specific to Flutter.
 flutter:
+
+  assets:
+    - assets/stopwatch.png
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
