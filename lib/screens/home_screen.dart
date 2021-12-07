@@ -31,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return GestureDetector(
       onTap: controller.toggle,
       onLongPress: controller.reset,
-      onDoubleTap: controller.restore,
+      onDoubleTap: controller.isActive ? null : controller.restore,
       child: Scaffold(
         body: SafeArea(
           child: Column(
@@ -53,21 +53,31 @@ class _HomeScreenState extends State<HomeScreen> {
                   secondsHandColor: Colors.red,
                 ),
               ),
-              const Text(
-                'Tap to start/stop\nHold to reset\nDouble tap to restore',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.grey,
+              AnimatedBuilder(
+                animation: controller,
+                builder: (context, _) => Text(
+                  'Tap to start/stop\nHold to reset${controller.isActive ? '' : '\nDouble tap to restore'}',
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey,
+                  ),
                 ),
               ),
             ],
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: controller.save,
-          backgroundColor: Colors.red,
-          child: const Icon(Icons.save),
+        floatingActionButton: AnimatedBuilder(
+          animation: controller,
+          builder: (context, _) {
+            return controller.isActive
+                ? const SizedBox.shrink()
+                : FloatingActionButton(
+                    onPressed: controller.save,
+                    backgroundColor: Colors.red,
+                    child: const Icon(Icons.save),
+                  );
+          },
         ),
       ),
     );

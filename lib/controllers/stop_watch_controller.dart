@@ -36,9 +36,12 @@ class StopWatchController extends ChangeNotifier {
   }
 
   void stop() {
+    if (isActive) _ticker.stop();
     _oldElapsedTime += _elapsedTime;
-    _ticker.stop();
+    _elapsedTime = Duration.zero;
+    notifyListeners();
   }
+
 
   void toggle() {
     if (isActive) {
@@ -48,7 +51,7 @@ class StopWatchController extends ChangeNotifier {
     }
   }
 
-  void save() => Memory.saveElapsedTime(elapsedTime);
+  void save() => Memory.saveElapsedTime(_oldElapsedTime);
 
   void restore() => setElapsedTime(Memory.restoreElapsedTime());
 
